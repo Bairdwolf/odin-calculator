@@ -12,7 +12,17 @@ function multiply(a, b){
 }
 
 function divide (a, b){
+    if(b==0){
+        clear();
+        const container=document.querySelector(".display");
+        const display=container.firstElementChild;
+        display.textContent="Nice try";
+        cleared=false;
+        pass;
+    }
+    else{
     return a/b;
+    }
 }
 
 //Global variables for numbers and operators
@@ -22,6 +32,10 @@ let numTwo=0;
 const content=[];
 //variable that stores if cleared
 let cleared=false;
+
+//variables for decimals on each side
+let decOne=false;
+let decTwo=false;
 
 //Function that can do any operation
 function operate(a, op, b){
@@ -54,6 +68,9 @@ function clear(){
     content.splice(0, 3);
     cleared=true;   
     updateDisplay();
+    //also set decimals to false
+    decOne=false;
+    decTwo=false;
 }
 
 function addContent(a){
@@ -105,9 +122,11 @@ opButtons.forEach((button)=>{
             addContent(output);
         }   
         else if(content.length==3){
-            //add later for if they want to chain operation
+            calculateAnswer();
             //calculate answer, then add content push but dont update display
             cleared=true;
+            content.push(output);
+
         }
     });
 });
@@ -127,4 +146,29 @@ function calculateAnswer(){
     cleared=false;
     addContent(answer.toFixed(8).toString());
 }
+
+//decimal button
+const pointButton=document.querySelector("#point");
+pointButton.addEventListener("click", ()=>{
+    const dot=".";
+    if(cleared==false){
+        clear();
+    }
+    if(content.length==0){
+        addContent(dot);
+        decOne=true;
+    }
+    else if(content.length==1 && decOne==false){
+        addDigit(dot, 0);
+        decOne=true;
+    }
+    else if(content.length==2){
+        addContent(dot);
+        decTwo=true;
+    }
+    else if (content.length==3 && decTwo==false){
+        addDigit(dot, 2);
+        decTwo=true;
+    }
+});
 
