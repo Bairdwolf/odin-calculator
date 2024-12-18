@@ -25,19 +25,19 @@ let cleared=false;
 
 //Function that can do any operation
 function operate(a, op, b){
-    if(op==="+"){
+    if(op=="+"){
         return add(a, b);
     }
 
-    else if(op==="-"){
+    else if(op=="-"){
         return subtract(a, b);
     }
 
-    else if(op==="*"){
+    else if(op=="*"){
         return multiply(a, b);
     }
 
-    else if(op==="/"){
+    else if(op=="/"){
         return divide(a, b);
     }
 }
@@ -99,16 +99,32 @@ const opButtons=document.querySelectorAll(".op");
 opButtons.forEach((button)=>{
     button.addEventListener("click", ()=>{
         const output=button.textContent;
+        cleared=true;
+        //this is so if they just got an answer its possible to add more numbers
         if(content.length==1){
             addContent(output);
-            cleared=true;
-            //this is so if they just got an answer its possible to add more numbers
         }   
         else if(content.length==3){
-            //add later for if they want to chain operations
+            //add later for if they want to chain operation
+            //calculate answer, then add content push but dont update display
+            cleared=true;
         }
     });
 });
 
+//functionality for equal button
+const equalButton=document.querySelector("#equals");
+equalButton.addEventListener("click", ()=>{
+    if(content.length==3){
+        calculateAnswer();
+    } 
+});
 
+//calculate answer function, sets cleared to false and rounds decimal, and displays answer
+function calculateAnswer(){
+    const answer=operate(parseFloat(content[0]), content[1].toString(), parseFloat(content[2]));
+    content.splice(0, 3);
+    cleared=false;
+    addContent(answer.toFixed(8).toString());
+}
 
