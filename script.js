@@ -69,7 +69,6 @@ function addDigit(a, b){
 }
 //functionality for number buttons, right now they add strings
 const numButtons=document.querySelectorAll(".number");
-
 numButtons.forEach((button)=>{
     button.addEventListener("click", ()=>{
         const output=button.textContent;
@@ -83,10 +82,33 @@ numButtons.forEach((button)=>{
             addContent(output);
         }
         else if(content.length==1||content.length==3){
-            addDigit(output, 0);
+            addDigit(output, content.length-1);
         }
        
     });
 });
+
+//functionality for clear button
+const clearButton=document.querySelector("#clear")
+clearButton.addEventListener("click", ()=>{
+    clear()
+});
+
+//functionality for operator buttons
+const opButtons=document.querySelectorAll(".op");
+opButtons.forEach((button)=>{
+    button.addEventListener("click", ()=>{
+        const output=button.textContent;
+        if(content.length==1){
+            addContent(output);
+            cleared=true;
+            //this is so if they just got an answer its possible to add more numbers
+        }   
+        else if(content.length==3){
+            //add later for if they want to chain operations
+        }
+    });
+});
+
 
 
